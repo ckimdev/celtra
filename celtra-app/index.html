@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Celtra App</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://unpkg.com/axios@0.12.0/dist/axios.min.js"></script>
+  <script src="https://unpkg.com/lodash@4.13.1/lodash.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="index.css">
+</head>
+
+
+<body>
+  <div id="celtra-app" class="jumbotron text-center">
+    <h1>{{ text }}</h1> 
+    <div class="row">
+      <div class="main_counter_two sections text-center">
+          <div class="col-sm-10 col-sm-offset-1">
+              <div class="row">
+                  <div class="col-sm-3 col-xs-12">
+                      <div class="single_counter_two_right">
+                          <i class="fa fa-level-up"></i>
+                          <p>High</p>
+                          <h2 class="statistic-counter_two">{{ high }}</h2>
+                      </div>
+                  </div><!-- End off col-sm-3 -->
+                  <div class="col-sm-3 col-xs-12">
+                      <div class="single_counter_two_right">
+                          <i class="fa fa-level-down"></i>
+                          <p>Low</p>
+                          <h2 class="statistic-counter_two">{{ low }}</h2>
+                      </div>
+                  </div><!-- End off col-sm-3 -->
+                  <div class="col-sm-3 col-xs-12">
+                      <div class="single_counter_two_right">
+                          <i class="fa fa-toggle-on"></i>
+                          <p>Open</p>
+                          <h2 class="statistic-counter_two">{{ open }}</h2>
+                      </div>
+                  </div><!-- End off col-sm-3 -->
+                  <div class="col-sm-3 col-xs-12">
+                      <div class="single_counter_two_right">
+                          <i class="fa fa-toggle-off"></i>
+                          <p>Close</p>
+                          <h2 class="statistic-counter_two">{{ close }}</h2>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+                    
+                    
+    <form class="form-inline">
+      <div class="input-group">
+        <input v-model="question" class="form-control" size="50" placeholder="Enter Stock Symbol" required>
+        <span>Try these?</span>
+        <span>   {{ sample }}</span>
+      </div>
+    </form>
+  </div>
+</body>
+<script>
+
+
+var stockVue = new Vue({
+  el: '#celtra-app',
+  data: {
+    question: '',
+    text: 'Thinking...',
+    open: '-',
+    close: '-',
+    high: '-',
+    low: '-',
+    sample: "AAPL,MSFT,GOOG,TWTR"
+  },
+  watch: {
+    // whenever question changes, this function will run
+    question: function () {
+      this.text = 'Waiting for you to stop typing...'
+      this.getAnswer()
+    },
+    
+    high: function() {
+      this.getSample()
+    }
+  },
+  methods: {
+    getSample: function() {
+        list=["AAOI","PLSE","TWNKW","EVRI","UCTT","CC","LNTH","KEM","MTNB","GPRK","ASMB","UPLD","STRP","SORL","SHOP","MLP","AKAO","DAIO","LLEX","CAMT","BZUN","EXAS","TROX","OIB.C","KRO","REN","EVI","DTRM","HIIQ","ASUR","EXTR","MOMO","NM-G","MIME","WLDN","NM-H","WB","NBEV","IRBT","AXGN","AAMC","NVDA","STM","IVAC","PXLW","KMG","COHR","CPRX","PAM","COOL","BRKS","IDN","KTOS","SGMS","TCX","WIX","SRT","CLVS","TGS","LL","ITI","HSKA","CDZI","QTM","MZOR","MGI","AGFS","NOVT","CARA","AEHR","BCOR","IMMU","HTHT","CHGG","TRUE","SIEB","FNJN","CORT","BVXV","EXEL","TDOC","LOGI","NVMI","MU","PEGA","ATRS","SAUC","MELI","TAL","SODA","CYRX","VCRA","CGNX","SQNS","LITE","BAC.A","CVGI","ZIONW",
+  "STDY"]
+        begin = Math.floor(Math.random() * list.length)
+        this.sample = list.slice(begin, begin+5).join(', ')
+      },
+      
+    getAnswer: _.debounce(
+      function () {
+        this.text = 'Thinking...'
+        var vm = this
+        axios.get('https://sandbox.tradier.com/v1/markets/quotes', {
+          headers: {'Authorization': "Bearer nu2yGeGAdZn7BmvAllaENMbHpMcB"},
+          params: {'symbols': vm.question}
+        }
+      )
+      .then(function (response) {
+        vm.text = response.data.quotes.quote.description
+        vm.open = response.data.quotes.quote.open
+        vm.close = response.data.quotes.quote.close
+        vm.high = response.data.quotes.quote.high
+        vm.low = response.data.quotes.quote.low
+      })
+      .catch(function (error) {
+        vm.text = 'Invalid Stock Symbol. '
+        vm.open = '-'
+        vm.close = '-'
+        vm.high = '-'
+        vm.low = '-'
+      })
+      },
+      500
+    )
+  }
+})
+</script>

@@ -1,0 +1,19 @@
+.main_counter_two .single_counter_two_right{
+    margin-top:30px;
+    overflow: hidden;
+    display: block;
+}
+.main_counter_two .single_counter_two_right i{
+    font-size:4.125rem;
+    margin-bottom:40px;
+    line-height: 4rem;
+    display: inline-block;
+}
+.main_counter_two .single_counter_two_right h2{
+    margin-bottom:30px;
+    line-height: 0;
+}
+
+.input-group {
+  padding-top: 20px
+}
