@@ -1,3 +1,5 @@
+![alt text](https://raw.githubusercontent.com/ckimdev/celtra/master/diagram.jpg)
+
 # celtra-lb
 
 **Celtra-lb** is a docker code for Nginx reverse proxy that
@@ -7,10 +9,9 @@
 
 # celtra-app
 **celtra-app** is a docker code for...
-1. An extremely simple web application that shows stock quote (high,low,open,close) when the user types in stock symbol.
+1. An extremely simple web app that shows stock quote (high,low,open,close) when the user types in stock symbol.
 2. Built with
    * HTML + CSS + Vuejs
    * Nginx webserver
-3. 
 
 
