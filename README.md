@@ -1,4 +1,4 @@
-![alt text](https://raw.githubusercontent.com/ckimdev/celtra/master/diagram.jpg)
+![alt text](https://raw.githubusercontent.com/ckimdev/celtra/master/diagram2.jpg)
 
 # celtra-lb
 
