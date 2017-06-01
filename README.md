@@ -1,4 +1,8 @@
 ![alt text](https://raw.githubusercontent.com/ckimdev/celtra/master/diagram2.jpg)
+# Dependencies
+1. [Aws-cli](https://aws.amazon.com/cli/)
+2. AWS credential to access the registry (private)
+3. [Docker](https://www.docker.com/)
 
 # celtra-lb
 
